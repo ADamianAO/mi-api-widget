@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consulta API</title>
+    <script>
+        async function enviarPregunta() {
+            const pregunta = document.getElementById('pregunta').value;
+            const response = await fetch('https://botapi-s2j2.onrender.com/api/responder/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ pregunta })
+            });
+
+            const data = await response.json();
+            document.getElementById('respuesta').textContent = data.respuesta;
+        }
+    </script>
+</head>
+<body>
+    <h1>Consulta a Sickboy Media</h1>
+    <label for="pregunta">Pregunta:</label>
+    <input type="text" id="pregunta" name="pregunta" required>
+    <button onclick="enviarPregunta()">Enviar</button>
+    <h2>Respuesta:</h2>
+    <p id="respuesta"></p>
+</body>
+</html>
