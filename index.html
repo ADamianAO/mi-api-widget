@@ -4,24 +4,28 @@
     <title>Consulta API</title>
     <script>
         async function enviarPregunta() {
-            // Obtén el valor de la pregunta del input
-            const pregunta = document.getElementById('pregunta').value;
-            
-            // Envía la solicitud POST a la API
-            const response = await fetch('https://botapi-s2j2.onrender.com/api/responder/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ pregunta: pregunta })
-            });
+            try {
+                // Obtén el valor de la pregunta del input
+                const pregunta = document.getElementById('pregunta').value;
+                
+                // Envía la solicitud POST a la API
+                const response = await fetch('https://botapi-s2j2.onrender.com/api/responder/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ pregunta: pregunta })
+                });
 
-            // Maneja la respuesta de la API
-            if (response.ok) {
-                const data = await response.json();
-                document.getElementById('respuesta').textContent = data.respuesta;
-            } else {
-                document.getElementById('respuesta').textContent = 'Error al contactar la API.';
+                // Maneja la respuesta de la API
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('respuesta').textContent = data.respuesta;
+                } else {
+                    document.getElementById('respuesta').textContent = 'Error al contactar la API. Estado: ' + response.status;
+                }
+            } catch (error) {
+                document.getElementById('respuesta').textContent = 'Error al contactar la API. ' + error.message;
             }
         }
     </script>
