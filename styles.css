@@ -3,12 +3,14 @@
 /* Estilo general del cuerpo */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     margin: 0;
     padding: 0;
+    justify-content: flex-start; /* Alinea horizontalmente al inicio del contenedor */
+    align-items: flex-start; /* Alinea verticalmente al inicio del contenedor */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /*justify-content: center;*/
+    /*align-items: center;*/
     height: 100vh;
 }
 
@@ -20,6 +22,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
     text-align: center;
+    margin: 20px;
 }
 
 /* Estilo del input */
@@ -48,8 +51,8 @@ button:hover {
 
 /* Estilo del párrafo de respuesta */
 p {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 0px solid #ddd;
     border-radius: 4px;
 }
