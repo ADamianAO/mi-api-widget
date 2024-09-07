@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Consulta API</title>
     <link rel="stylesheet" href="styles.css">
     <script>
-        async function enviarPregunta() {
+        async function enviarPregunta(event) {
+            event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+            
             try {
                 // Obtén el valor de la pregunta del input
                 const pregunta = document.getElementById('pregunta').value;
@@ -26,18 +29,18 @@
                     document.getElementById('respuesta').textContent = 'Error al contactar la API. Estado: ' + response.status;
                 }
             } catch (error) {
-                document.getElementById('respuesta').textContent = 'Error al contactar la API. ' + error.message;
+                document.getElementById('respuesta').textContent = 'Error de conexión. ' + error.message;
             }
         }
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>Pregunta aquí</h1>
-        <label for="pregunta">Escribe tu pregunta:</label>
-        <input type="text" id="pregunta" name="pregunta" required>
-        <button onclick="enviarPregunta()">Preguntar</button>
-        <h2>Respuesta:</h2>
+        <form onsubmit="enviarPregunta(event)">
+            <label for="pregunta">¿Tienes dudas? Pregunta aquí:</label>
+            <input type="text" id="pregunta" name="pregunta" required>
+            <button type="submit">Preguntar</button>
+        </form>
         <p id="respuesta"></p>
     </div>
 </body>
