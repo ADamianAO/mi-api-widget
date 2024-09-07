@@ -24,7 +24,13 @@
                 // Maneja la respuesta de la API
                 if (response.ok) {
                     const data = await response.json();
-                    document.getElementById('respuesta').textContent = data.respuesta;
+                    
+                    // Reemplaza los saltos de línea (\n) por <br> y las negritas **texto** por <strong>texto</strong>
+                    const formattedResponse = data.respuesta
+                        .replace(/\n/g, '<br>')  // Saltos de línea
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');  // Negritas **texto**
+                    
+                    document.getElementById('respuesta').innerHTML = formattedResponse;
                 } else {
                     document.getElementById('respuesta').textContent = 'Error al contactar la API. Estado: ' + response.status;
                 }
