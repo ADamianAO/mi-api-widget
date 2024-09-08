@@ -2,43 +2,69 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta API</title>
-    <link rel="stylesheet" href="styles.css">
-    <script>
-        async function enviarPregunta(event) {
-            event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
-            
-            try {
-                // Obtén el valor de la pregunta del input
-                const pregunta = document.getElementById('pregunta').value;
-                
-                // Envía la solicitud POST a la API
-                const response = await fetch('https://DamianAO.pythonanywhere.com/api/responder/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ pregunta: pregunta })
-                });
-
-                // Maneja la respuesta de la API
-                if (response.ok) {
-                    const data = await response.json();
-                    
-                    // Reemplaza los saltos de línea (\n) por <br> y las negritas **texto** por <strong>texto</strong>
-                    const formattedResponse = data.respuesta
-                        .replace(/\n/g, '<br>')  // Saltos de línea
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');  // Negritas **texto**
-                    
-                    document.getElementById('respuesta').innerHTML = formattedResponse;
-                } else {
-                    document.getElementById('respuesta').textContent = 'Error al contactar la API. Estado: ' + response.status;
-                }
-            } catch (error) {
-                document.getElementById('respuesta').textContent = 'Error de conexión. ' + error.message;
-            }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Centrar horizontalmente */
+            align-items: flex-start; /* Alinear en la parte superior */
+            height: 100vh;
+            box-sizing: border-box;
         }
-    </script>
+
+        /* Contenedor principal */
+        .container {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 100%; /* Ajusta el ancho al 100% del contenedor */
+            width: 100%;
+            text-align: center;
+            margin: 20px;
+            box-sizing: border-box; /* Incluye el padding y el border en el ancho total */
+            overflow: hidden; /* Evita el desbordamiento */
+        }
+
+        /* Estilo del input */
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Estilo del botón */
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo del párrafo de respuesta */
+        p {
+            background-color: #FFFFFF;
+            padding: 10px;
+            border: 0px solid #ddd;
+            border-radius: 4px;
+            word-wrap: break-word; /* Asegura que el texto largo se ajuste dentro del contenedor */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -49,5 +75,35 @@
         </form>
         <p id="respuesta"></p>
     </div>
+    <script>
+        async function enviarPregunta(event) {
+            event.preventDefault();
+            
+            try {
+                const pregunta = document.getElementById('pregunta').value;
+                
+                const response = await fetch('https://DamianAO.pythonanywhere.com/api/responder/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ pregunta: pregunta })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const formattedResponse = data.respuesta
+                        .replace(/\n/g, '<br>')
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    
+                    document.getElementById('respuesta').innerHTML = formattedResponse;
+                } else {
+                    document.getElementById('respuesta').textContent = 'Error al contactar la API. Estado: ' + response.status;
+                }
+            } catch (error) {
+                document.getElementById('respuesta').textContent = 'Error de conexión. ' + error.message;
+            }
+        }
+    </script>
 </body>
 </html>
