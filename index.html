@@ -11,27 +11,25 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center; /* Centrar horizontalmente */
-            align-items: flex-start; /* Alinear en la parte superior */
+            justify-content: center;
+            align-items: flex-start;
             height: 100vh;
             box-sizing: border-box;
         }
 
-        /* Contenedor principal */
         .container {
             background-color: #FFFFFF;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 100%; /* Ajusta el ancho al 100% del contenedor */
+            max-width: 100%;
             width: 100%;
             text-align: center;
             margin: 20px;
-            box-sizing: border-box; /* Incluye el padding y el border en el ancho total */
-            overflow: hidden; /* Evita el desbordamiento */
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
-        /* Estilo del input */
         input[type="text"] {
             width: calc(100% - 22px);
             padding: 10px;
@@ -41,7 +39,6 @@
             box-sizing: border-box;
         }
 
-        /* Estilo del botón */
         button {
             background-color: #007bff;
             color: #fff;
@@ -56,13 +53,12 @@
             background-color: #0056b3;
         }
 
-        /* Estilo del párrafo de respuesta */
         p {
             background-color: #FFFFFF;
             padding: 10px;
             border: 0px solid #ddd;
             border-radius: 4px;
-            word-wrap: break-word; /* Asegura que el texto largo se ajuste dentro del contenedor */
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -92,9 +88,15 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    const formattedResponse = data.respuesta
+                    let formattedResponse = data.respuesta
                         .replace(/\n/g, '<br>')
                         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                    // Detectar URLs y convertirlas en enlaces
+                    formattedResponse = formattedResponse.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                    
+                    // Detectar correos electrónicos y convertirlos en enlaces mailto
+                    formattedResponse = formattedResponse.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '<a href="mailto:$1">$1</a>');
                     
                     document.getElementById('respuesta').innerHTML = formattedResponse;
                 } else {
